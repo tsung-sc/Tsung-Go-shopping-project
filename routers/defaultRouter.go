@@ -58,4 +58,14 @@ func init() {
 	beego.Router("/user", &itying.UserController{})
 	beego.Router("/user/order", &itying.UserController{}, "get:OrderList")
 	beego.Router("/user/orderinfo", &itying.UserController{}, "get:OrderInfo")
+
+	//搜索
+	beego.Router("/search", &itying.SearchController{})
+	beego.Router("/search/getOne", &itying.SearchController{}, "get:GetOne")
+	beego.Router("/search/addGoods", &itying.SearchController{}, "get:AddGoods")
+	beego.Router("/search/update", &itying.SearchController{}, "get:Update")
+	beego.Router("/search/delete", &itying.SearchController{}, "get:Delete")
+	beego.Router("/search/query", &itying.SearchController{}, "get:Query")
+	beego.Router("/search/filterQuery", &itying.SearchController{}, "get:FilterQuery")
+	beego.Router("/search/goodsList", &itying.SearchController{}, "get:GoodsList")
 }
