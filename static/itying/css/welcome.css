@@ -1,0 +1,135 @@
+.portal-content-box {
+
+    padding: 10px;
+    font-size: 14px;
+
+    color: #666;
+}
+
+.portal-content-box .box-bd {
+
+    padding: 20px;
+}
+
+.portal-content-box .user-card {
+    position: relative;
+    float: left;
+    width: 302px;
+    height: 160px;
+    padding-left: 180px;
+    padding-top: 40px;
+}
+
+.portal-content-box .action-list li {
+    position: relative;
+    padding: 6px 0;
+}
+
+.portal-content-box .user-card .username {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 400;
+    color: #616161;
+}
+
+.portal-content-box .user-card .tip {
+    margin: 0 0 10px;
+    color: #b0b0b0;
+}
+
+.portal-content-box .user-card .link {
+    font-size: 12px;
+    color: #ff6700;
+}
+
+.portal-content-box .user-card .avatar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 4px;
+    border: 1px solid #e0e0e0;
+    border-radius: 150px;
+}
+
+.portal-content-box .user-actions {
+    float: right;
+    width: 358px;
+    margin-top: 35px;
+}
+
+.portal-content-box .portal-sub {
+    border-top: 1px solid #e0e0e0;
+}
+
+.portal-content-box .info-list {
+    margin: 0;
+    padding: 60px 0 0;
+    list-style-type: none;
+    color: #757575;
+}
+
+.portal-content-box .info-list li {
+    position: relative;
+    float: left;
+    width: 276px;
+    height: 60px;
+    padding-left: 112px;
+    padding-top: 15px;
+    margin-left: 14px;
+    margin-bottom: 40px;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+
+.portal-content-box .info-list img {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+}
+
+.portal-content-box .info-list h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.portal-content-box a {
+    color: #757575;
+    text-decoration: none;
+}
+
+
+.btn {
+    display: inline-block;
+    *zoom: 1;
+    *display: inline;
+    width: 158px;
+    height: 38px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #b0b0b0;
+    font-size: 14px;
+    line-height: 38px;
+    text-align: center;
+    color: #b0b0b0;
+    cursor: pointer;
+    -webkit-transition: all .4s;
+    transition: all .4s;
+}
+
+.btn-primary {
+    background: #ff6700;
+    border-color: #ff6700;
+    color: #fff;
+}
+
+.btn-small {
+    width: 118px;
+    height: 28px;
+    font-size: 12px;
+    line-height: 28px;
+}

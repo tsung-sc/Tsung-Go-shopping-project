@@ -1,0 +1,151 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+
+<script src="/static/itying/js/jqPaginator.js"></script>
+
+<link rel="stylesheet" href="/static/itying/css/order.css" />
+
+
+<!-- self_info -->
+<div class="grzxbj">
+	<div class="selfinfo center">
+		<div class="lfnav fl">
+			<div class="ddzx">用户中心</div>
+			<div class="subddzx">
+				{{template "../public/user_left.html" .}}
+			</div>
+
+		</div>
+		<div class="rtcont fr">
+			<h1>我的订单</h1>
+
+			<div class="uc-content-box">
+
+				<div class="box-hd">
+					<div class="more clearfix">
+						<ul class="filter-list J_orderType">
+							<li class="first active"><a href="/user/order">全部有效订单</a></li>
+							<li><a href="/user/order?order_status=0">待支付</a></li>
+							<li><a href="/user/order?order_status=1">已支付</a></li>
+							<li><a href="/user/order?order_status=3">待收货</a></li>
+							<li><a href="/user/order?order_status=6">已关闭</a></li>
+						</ul>
+						<form id="J_orderSearchForm" class="search-form clearfix" action="/user/order" method="get">
+
+							<input class="search-text" type="search" id="J_orderSearchKeywords" name="keywords"
+								autocomplete="off" placeholder="输入商品名称">
+							<input type="submit" class="search-btn iconfont" value="搜索">
+						</form>
+					</div>
+				</div>
+
+				{{if .order}}
+				<div class="box-bd">
+					<table class="table">
+
+						{{range $key,$value := .order}}
+						<tr>
+							<td colspan="2">
+
+								<div class="order-summary">
+									<h2>
+
+										{{if eq $value.OrderStatus 0}}
+										已下单 未支付
+										{{else if eq $value.OrderStatus 1}}
+										已付款
+										{{else if eq $value.OrderStatus 2}}
+										已配货
+										{{else if eq $value.OrderStatus 3}}
+										已发货
+										{{else if eq $value.OrderStatus 4}}
+										交易成功
+										{{else if eq $value.OrderStatus 5}}
+										已退货
+										{{else if eq $value.OrderStatus 6}}
+										无效 已取消
+										{{end}}
+
+									</h2>
+									{{$value.AddTime | unixToDate}} | {{$value.Name}} | 订单号：{{$value.OrderId}} | 在线支付
+									实付金额：{{$value.AllPrice}} 元
+
+								</div>
+								{{range $k,$v := $value.OrderItem}}
+									<div class="order-info clearfix">
+										<div class="col_pic">
+											<img src="/{{$v.ProductImg}}" />
+										</div>
+										<div class="col_title">
+											<p>{{$v.ProductTitle}}</p>
+											<p>{{$v.ProductPrice}}元 × {{$v.ProductNum}}</p>
+											<p>合计：{{mul $v.ProductPrice $v.ProductNum}}元</p>
+										</div>
+									</div>
+								{{end}}
+
+							</td>
+
+							<td>
+								{{if eq $value.OrderStatus 1}}
+									<span>
+
+										<a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+
+										<br>
+										<br>
+										<a class="btn" href="#">申请售后</a>
+									</span>
+								{{else}}
+									<span>
+										<a class="delete btn btn-primary" href="/buy/confirm?id={{$value.Id}}">去支付</a>
+										<br>
+										<br>
+										<a class="delete btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+									</span>
+								{{end}}
+							</td>
+						</tr>
+						{{end}}
+
+
+
+
+					</table>
+
+					<div id="page" class="pagination fr"></div>
+				</div>
+				{{else}}
+					<p style="text-align:center; padding-top:100px;">没有查找到订单</p>
+				{{end}}
+			</div>
+
+			<script>
+
+				$('#page').jqPaginator({
+					totalPages: {{.totalPages}},
+					visiblePages: 8,
+					currentPage: {{.page}},
+					onPageChange: function (num, type) {						
+						if (type == 'change') {
+							location.href = "/user/order?page=" + num+"&keywords="+{{.keywords}}+"&order_status="+{{.orderStatus}};
+						}
+					}
+				});
+
+			</script>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- self_info -->
+
+<footer class="mt20 center">
+	<div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>
+	<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div>
+	<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>
+</footer>
+</body>
+
+</html>

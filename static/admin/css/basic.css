@@ -1,0 +1,185 @@
+ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+}
+.fr{
+
+    float: right;
+}
+
+.fl{
+
+    float: left;
+}
+.pic{
+    width: 80px;
+}
+
+
+.clear::after{
+
+    clear: both;
+    content: '';
+
+    height: 0px;
+    display: block;
+
+
+}
+
+.aside h4{
+	margin-top: 0px;
+	font-size: 15px;
+	cursor: pointer;
+	
+	position: relative;
+    display: block;
+    padding: 10px 15px;
+    margin-bottom: -1px;    
+    color: #fff;
+    background-color: #428bca;
+    border-color: #428bca;
+    
+    border-bottom: 2px solid #3a82bf;
+}
+
+.aside .list-group-item:first-child{
+
+	border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+}
+
+.aside .list-group-item:last-child{
+	
+	border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+
+
+.aside .list-group-item a{
+	
+	display: inline-block;
+	width: 100%;
+	text-indent: 10px;
+	color: #555
+}
+
+
+
+.navbar-header{   
+    text-align: center;
+}
+.navbar-inverse .navbar-nav>li>a{
+    color:#f9f9f9;
+}
+.navbar-inverse{
+    background:#46473F;
+}
+
+
+table .th{
+	
+	background: #EEEEEE;
+}
+
+ .input-form li{
+    margin: 5px 0px;
+    padding:5px 0px
+}
+.input-form span{
+    display: inline-block;
+    width:100px;
+}
+.input-form li input[type=text]{
+    width: 400px;
+}
+
+input[type=file]{
+ 	display: inline !important;
+
+}
+
+
+.col-sm-2,.col-sm-10{
+	padding-left: 0px;
+}
+
+
+.navbar{
+	border-radius: 0px;
+}
+.logo{
+	height:48px;
+}
+
+input, button, select, textarea{
+    border: 1px solid #DDD;
+}
+input:focus, button:focus, select:focus, textarea:focus{
+    border: 1px solid #999!important;
+}
+
+/*修改商品详情布局*/
+
+.goods_content,.news_content{
+    border: 1px solid #eee;
+    margin-bottom: 20px;
+}
+.nav-tabs{
+    background: #eee;
+    padding-left: 10px;
+}
+.nav-tabs li{
+    padding: 0px;
+}
+.goods_content,.news_content{
+    border: 1px solid #eee;    
+}
+.tab-content{
+    padding: 20px;
+    position: relative;
+    top:-6px;
+    background: #fff;
+}
+.goods_content_btn{
+    margin: 20px;
+}
+
+/* Web Uploader 按钮失效的解决方案 */
+#photoUploader div:nth-child(2){width:100%!important;height:100%!important;}   
+
+#photoUploader{
+    width: 120px;
+    margin: 40px auto 20px auto;
+    
+}
+/* 商品图库 */
+.goods_image_list {
+    border:1px solid #eee;
+
+}
+.goods_image_list li{
+    width:  120px;   
+    float: left;    
+    margin-right: 10px;
+    border-bottom: none;
+    position: relative;
+}
+
+.goods_image_list li .goods_image_delete{
+    width: 40px;
+    height: 40px;
+    background: url('../diyUpload/images/x_alt.png') no-repeat center center;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    cursor: pointer;
+}
+
+
+.goods_image_list li .color_list{    
+    margin-top:20px;
+
+}

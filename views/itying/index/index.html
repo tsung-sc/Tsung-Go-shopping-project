@@ -1,0 +1,256 @@
+{{template "../public/page_header.html" .}}
+
+
+<!-- start banner_x -->
+<div class="banner_x center">
+	<a href="./index.html" target="_blank"><div class="logo fl"></div></a>
+	<a href=""><div class="ad_top fl"></div></a>
+	<div class="nav fl">
+		<ul class="clearfix" id="nav_list">
+			{{range $key,$value := .middleNavList}}
+			<li>
+				<a href="{{$value.Link}}" target="_blank">{{$value.Title}}</a>
+			
+				<ol class="children-list clearfix">
+					{{range $k,$v := $value.GoodsItem}}
+						<li>
+							<a href="item_{{$v.Id}}.html" style="width: 120px;">
+								<img src="{{$v.GoodsImg | formatImg}}" alt="{{$v.Title}}" />
+								<!-- <p>{{$v.Title}}</p> -->
+								<p style="float: left;width: 100%;">
+									<span style="display: block;">{{$v.Title}}</span>
+									<span style="display: block;">{{$v.Price}}元</span>
+								</p>
+							</a>
+						</li>
+					{{end}}									
+				</ol>
+			
+			</li>
+			{{end}}
+		</ul>
+	</div>
+	<div class="search fr">
+		<form action="" method="post">
+			<div class="text fl">
+				<input type="text" class="shuru"  placeholder="搜索您需要的商品">
+			</div>
+			<div class="submit fl">
+				<input type="submit" class="sousuo" value="搜索"/>
+			</div>
+			<div class="clear"></div>
+		</form>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- end banner_x -->
+<!-- start banner_y -->
+<div class="banner_y center">
+	<div class="nav">
+		<ul>
+			{{range $key,$value := .goodsCateList}}
+			<li>
+				{{if eq $value.Link ""}}
+					<a href="category_{{$value.Id}}.html" target="_blank">{{$value.Title}}</a>	
+				{{else}}
+					<a href="{{$value.Link}}" target="_blank">{{$value.Title}}</a>
+				{{end}}
+				
+				<div class="pop">
+					<ol class="cate_list clear">
+								
+						{{range $k,$v := $value.GoodsCateItem}}
+							<li>
+								<div class="xuangou_left">
+
+									{{if eq $v.Link ""}}
+
+										<a href="category_{{$v.Id}}.html" target="_blank" class="clearfix">
+											<div class="img fl"><img src="{{$v.CateImg | formatImg}}" alt="{{$v.Title}}"></div>
+											<span class="fl">{{$v.Title}}</span>									
+										</a>
+									{{else}}
+										<a href="{{$v.Link}}" target="_blank" class="clearfix">
+											<div class="img fl"><img src="{{$v.CateImg | formatImg}}" alt="{{$v.Title}}"></div>
+											<span class="fl">{{$v.Title}}</span>									
+										</a>
+									{{end}}
+
+								</div>
+								
+							</li>
+						{{end}}						
+					</ol>
+				</div>
+			
+			</li>
+			{{end}}
+
+		</ul>
+	</div>
+
+
+	<div class="swiper-container">
+		<div class="swiper-wrapper">
+
+			{{range $key,$value := .focusList}}
+				<div class="swiper-slide">
+					<a href="{{$value.Link}}" target="_blank">
+						<img src="{{$value.FocusImg | formatImg}}" alt="{{$value.Title}}" />
+					</a>
+				</div>
+			{{end}}
+
+
+
+		</div>
+		<!-- Add Arrows -->
+		<div class="swiper-button-next"></div>
+		<div class="swiper-button-prev"></div>
+	</div>
+
+</div>
+
+<div class="sub_banner center">
+	<div class="sidebar fl">
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_01.gif"></a></div>
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_02.gif"></a></div>
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_03.gif"></a></div>
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_04.gif"></a></div>
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_05.gif"></a></div>
+		<div class="fl"><a href=""><img src="./static/itying/image/hjh_06.gif"></a></div>
+		<div class="clear"></div>
+	</div>
+	<div class="datu fl"><a href=""><img src="./static/itying/image/hongmi4x.png" alt=""></a></div>
+	<div class="datu fl"><a href=""><img src="./static/itying/image/xiaomi5.jpg" alt=""></a></div>
+	<div class="datu fr"><a href=""><img src="./static/itying/image/pinghengche.jpg" alt=""></a></div>
+	<div class="clear"></div>
+
+
+</div>
+<!-- end banner -->
+
+<!-- start danpin -->
+<div class="danpin center">
+
+	<div class="title center">小米明星单品</div>
+	<div class="main center">
+		<div class="mingxing fl">
+			<div class="sub_mingxing"><a href=""><img src="./static/itying/image/pinpai1.png" alt=""></a></div>
+			<div class="pinpai"><a href="">小米MIX</a></div>
+			<div class="youhui">5月9日-21日享花呗12期分期免息</div>
+			<div class="jiage">3499元起</div>
+		</div>
+		<div class="mingxing fl">
+			<div class="sub_mingxing"><a href=""><img src="./static/itying/image/pinpai2.png" alt=""></a></div>
+			<div class="pinpai"><a href="">小米5s</a></div>
+			<div class="youhui">5月9日-10日，下单立减200元</div>
+			<div class="jiage">1999元</div>
+		</div>
+		<div class="mingxing fl">
+			<div class="sub_mingxing"><a href=""><img src="./static/itying/image/pinpai3.png" alt=""></a></div>
+			<div class="pinpai"><a href="">小米手机5 64GB</a></div>
+			<div class="youhui">5月9日-10日，下单立减100元</div>
+			<div class="jiage">1799元</div>
+		</div>
+		<div class="mingxing fl">
+			<div class="sub_mingxing"><a href=""><img src="./static/itying/image/pinpai4.png" alt=""></a></div>
+			<div class="pinpai"><a href="">小米电视3s 55英寸</a></div>
+			<div class="youhui">5月9日，下单立减200元</div>
+			<div class="jiage">3999元</div>
+		</div>
+		<div class="mingxing fl">
+			<div class="sub_mingxing"><a href=""><img src="./static/itying/image/pinpai5.png" alt=""></a></div>
+			<div class="pinpai"><a href="">小米笔记本</a></div>
+			<div class="youhui">更轻更薄，像杂志一样随身携带</div>
+			<div class="jiage">3599元起</div>
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+
+
+
+<!-- 手机 -->
+
+<div class="category_item w">
+	<div class="title center">手机</div>
+	<div class="main center">
+
+
+		<div class="category_item_left">
+
+			<img src="static/itying/image/shouji.jpg" alt="手机">
+		</div>
+
+
+		<div class="category_item_right">
+
+
+			{{range $key,$value := .phoneList}}
+			<div class="hot fl">
+				<div class="xinpin"><span style="background:#fff"></span></div>
+				<div class="tu"><a href="item_{{$value.Id}}.html"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
+				<div class="miaoshu"><a href="">{{$value.Title}}</a></div>
+				<div class="jiage">{{$value.Price}}元</div>
+				<div class="pingjia">372人评价</div>
+				<div class="piao">
+					<a href="">
+						<span>{{substr $value.SubTitle 0 20}}</span>
+						
+					</a>
+				</div>
+			</div>
+			{{end}}
+
+
+		</div>
+
+
+	</div>
+</div>
+
+<!-- 电视 -->
+<div class="category_item w">
+	<div class="title center">电视</div>
+	<div class="main center">
+
+
+		<div class="category_item_left">
+
+			<img src="static/itying/image/peijian1.jpg" alt="手机">
+		</div>
+
+
+		<div class="category_item_right">
+
+
+			{{range $key,$value := .tvList}}
+			<div class="hot fl">
+				<div class="xinpin"><span style="background:#fff"></span></div>
+				<div class="tu"><a href="item_{{$value.Id}}.html"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
+				<div class="miaoshu"><a href="">{{$value.Title}}</a></div>
+				<div class="jiage">{{$value.Price}}元</div>
+				<div class="pingjia">372人评价</div>
+				<div class="piao">
+					<a href="">
+						<span>{{$value.SubTitle}}</span>
+						
+					</a>
+				</div>
+			</div>
+			{{end}}
+
+
+		</div>
+
+
+	</div>
+</div>
+
+
+
+{{template "../public/page_footer.html" .}}
+</body>
+
+</html>

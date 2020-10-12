@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>聪惠(TSUNG)网上商城</title>
+		<link rel="stylesheet" type="text/css" href="/static/itying/css/style.css">
+		<link rel="stylesheet" href="/static/itying/css/swiper.min.css">
+
+		<script src="/static/itying/js/jquery-1.10.1.js"></script>		
+		<script src="/static/itying/js/swiper.min.js"></script>
+		<script src="/static/itying/js/base.js"> </script>
+
+
+	</head>
+	<body>
+	<!-- start header -->
+		<header>
+			<div class="top center">
+				<div class="left fl">
+					<ul>
+						{{range $key,$value := .topNavList}}
+							<li><a href="{{$value.Link}}" {{if eq $value.IsOpennew 2}} target="_blank" {{end}}>{{$value.Title}}</a></li>
+						{{end}}
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right fr">
+					<div class="gouwuche fr"><a href="/cart">购物车</a>
+				</div>
+					<div class="fr">
+							{{str2html .userinfo}}
+					</div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</div>
+		</header>
+	<!--end header -->
+

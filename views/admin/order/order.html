@@ -1,0 +1,118 @@
+{{template "../public/page_header.html"}}
+
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+
+<div class="panel panel-default">              
+    <div class="panel-body">
+        <form role="form" class="form-inline" method="get" action="/{{config "String" "adminPath" ""}}/order">
+            <div class="form-group">
+                <label for="name">输入客户联系方式</label>
+                <input type="text" class="form-control" value="{{.keyword}}" id="keyword" name="keyword" placeholder="请输入客户联系方式">
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-default">开始搜索</button>
+            </div>
+        </form>
+    </div>
+<!--
+列表展示
+-->
+    <div class="panel-body">
+
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>                                   
+            <tr class="th">
+				<th>订单号</th>
+                <th>总价</th>
+                <th>姓名</th>  
+                <th>手机号</th>
+                <th>地址</th>
+                <th>邮编号</th>
+                <th>付款状态</th>
+                <th>支付类型</th>
+                <th>订单状态</th>
+                <th>创建时间</th>                             
+                <th class="text-center">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+                {{range $key,$value := .order}}
+
+                <tr>                        
+                        <td>{{$value.OrderId}}</td>                        
+                        <td>{{$value.AllPrice}}</td>
+                        <td>{{$value.Name}}</td>  
+                        <td>{{$value.Phone}}</td>      
+                        
+                        <td>{{$value.Address}}</td>                                              
+						<td>{{$value.Zipcode}}</td> 
+						<td  class="text-center">                            
+                            {{if eq $value.PayStatus 0}}                              
+							未付款
+                            {{else}}
+                            已付款
+                            {{end}}
+                        </td>
+						<td  class="text-center">                            
+                            {{if eq $value.PayType 0}}                              
+							支付宝支付
+                            {{else}}
+                            微信支付
+                            {{end}}
+                        </td>
+						<td  class="text-center">                            
+                            {{if eq $value.OrderStatus 0}}
+										已下单 未支付
+										{{else if eq $value.OrderStatus 1}}
+										已付款
+										{{else if eq $value.OrderStatus 2}}
+										已配货
+										{{else if eq $value.OrderStatus 3}}
+										已发货
+										{{else if eq $value.OrderStatus 4}}
+										交易成功
+										{{else if eq $value.OrderStatus 5}}
+										已退货
+										{{else if eq $value.OrderStatus 6}}
+										无效 已取消
+										{{end}}
+                        </td>
+						<td>{{$value.AddTime | unixToDate}}</td>
+                        
+
+                        <td class="text-center">
+							<a href="/{{config "String" "adminPath" ""}}/order/detail?id={{$value.Id}}" />详情</a>
+                            <a href="/{{config "String" "adminPath" ""}}/order/edit?id={{$value.Id}}" />修改</a> 　
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/order/delete?id={{$value.Id}}" />删除</a>                          
+                        </td>
+                    </tr>       
+                {{end}}
+            </tbody>
+        </table>
+        <div id="pagination" class="pagination fr">
+
+        </div>
+    </div>
+</div>
+</div>
+<script>
+
+    $(function(){
+        $('#pagination').jqPaginator({
+            totalPages: {{.totalPages}},
+            visiblePages: 10,
+            currentPage: {{.page}},
+            onPageChange: function (num, type) {
+               console.log(num,type)
+               if(type=="change"){
+                    location.href="/{{config "String" "adminPath" ""}}/order?page="+num+"&keyword={{.keyword}}";
+               }
+            }
+        });
+    })
+</script>
+
+</body>
+</html>

@@ -1,0 +1,74 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+<link rel="stylesheet" href="/static/itying/css/welcome.css" />
+<!-- self_info -->
+<div class="grzxbj">
+    <div class="selfinfo center">
+        <div class="lfnav fl">
+            <div class="ddzx">用户中心</div>
+            <div class="subddzx">
+                {{template "../public/user_left.html" .}}
+            </div>
+
+        </div>
+        <div class="rtcont fr">
+            <div class="portal-content-box">
+
+
+
+                <div class="box-bd">
+                    <div class="portal-main clearfix">
+                        <div class="user-card">
+                            <h2 class="username">{{.user.Phone}}</h2>
+                            <p class="tip">{{.Hello}}</p>
+                            <a class="link" href="https://account.xiaomi.com/pass/userInfo" target="_blank"
+                                data-stat-id="30d619c492c43471"
+                                onclick="_msq.push(['trackEvent', 'f4f3444fdfa3d27a-30d619c492c43471', 'https://account.xiaomi.com/pass/userInfo', 'pcpid', '']);">修改个人信息
+                                &gt;</a>
+                            <img class="avatar" src="https://account.xiaomi.com/static/img/passport/photo.jpg"
+                                width="150" height="150" alt="2152135723">
+                        </div>
+                        <div class="user-actions">
+                            <ul class="action-list">
+                                <li>账户安全：<span class="level level-2">普通</span></li>
+                                <li>绑定手机：<span class="tel">{{.user.Phone}}</span></li>
+
+                                <li>绑定邮箱：<span class="tel"></span><a class="btn btn-small btn-primary"
+                                        href="https://account.xiaomi.com/pass/userInfo" target="_blank"
+                                        data-stat-id="d36648c4ef44cb77"
+                                        onclick="_msq.push(['trackEvent', 'f4f3444fdfa3d27a-d36648c4ef44cb77', 'https://account.xiaomi.com/pass/userInfo', 'pcpid', '']);">绑定</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="portal-sub">
+                        <ul class="info-list clearfix">
+                            <li>
+                                <h3>待支付的订单：<span class="num">{{.wait_pay}}</span></h3>
+                                <a href="/user/order?order_status=0" data-stat-id="ff48b3f50874dae7">查看待支付订单</a>
+                                <img src="//s01.mifile.cn/i/user/portal-icon-1.png" alt="">
+                            </li>
+                            <li>
+                                <h3>待收货的订单：<span class="num">{{.wait_rec}}</span></h3>
+                                <a href="/user/order?order_status=3" data-stat-id="f7b15ff4b8710895">查看待收货订单</a>
+                                <img src="//s01.mifile.cn/i/user/portal-icon-2.png" alt="">
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>
+<!-- self_info -->
+
+<footer class="mt20 center">
+    <div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>
+    <div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div>
+    <div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>
+</footer>
+</body>
+
+</html>

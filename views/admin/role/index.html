@@ -1,0 +1,65 @@
+{{template "../public/page_header.html" .}}
+
+
+
+<div class="container-fluid">
+    <div class="row">
+           
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    搜索
+                </div>
+                <div class="panel-body">
+                    <form role="form" class="form-inline">
+                        <div class="form-group">
+                            <label for="name">名称</label>
+                            <input type="text" class="form-control" id="name" placeholder="请输入名称">
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-default">开始搜索</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--
+                列表展示
+            -->
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead>
+                    <tr class="th">
+                        <th>部门名称</th>
+                        <th>部门描述</th>
+                        <th>增加时间</th>
+
+                       
+                        <th class="text-center">操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {{range $key,$value:=.rolelist}}
+                    <tr>
+                        <td>{{$value.Title}}</td>
+                        <td>{{$value.Description}}</td>
+                        <td>{{$value.AddTime | unixToDate}}</td>
+                      
+                        <td class="text-center">
+                            <a href="/{{config "String" "adminPath" ""}}/role/auth?id={{$value.Id}}">授权</a>
+                            <a href="/{{config "String" "adminPath" ""}}/role/edit?id={{$value.Id}}">编辑</a>
+
+
+                            <a class="delete" href="/{{config "String" "adminPath" ""}}/role/delete?id={{$value.Id}}">删除</a>
+                        </td>
+                    </tr>
+                    {{end}}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

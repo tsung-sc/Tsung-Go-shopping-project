@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="author" content="order by dede58.com" />
+	<title>用户注册</title>
+	<link rel="stylesheet" href="/static/itying/css/login.css" />
+	<script src="/static/itying/js/jquery-1.10.1.js"></script>
+</head>
+
+<body class="register_page">
+
+	<div class="regist">
+		<div class="regist_center">
+
+			<div class="logo">
+				<img src="/static/itying/image/logo_top.png" alt="nest小米">
+			</div>
+			<div class="regist_top">
+				<h2>注册小米账户</h2>
+			</div>
+			<div class="regist_main center">
+
+				<input class="form_input" type="text" name="phone" id="phone" placeholder="请填写正确的手机号" />
+
+				<div class="yzm">
+					<input type="text" id="photo_code" name="photo_code" placeholder="请输入图形验证码" />
+					{{create_captcha}}
+				</div>				
+				<div class="error"></div>
+				<div class="regist_submit">
+					<button class="submit" id="registerButton">
+						立即注册
+					</button>
+				</div>
+
+
+				<br>
+				<br>
+				<div class="privacy_box">
+					<div class="msg">
+						<label class="n_checked now select-privacy">
+							<input type="checkbox" checked="true" /> 注册帐号即表示您同意并愿意遵守beego仿小米 <a
+								href="https://static.account.xiaomi.com/html/agreement/account/cn.html"
+								class="inspect_link " title="用户协议" target="_blank">用户协议</a>和<a
+								href="https://www.mi.com/about/privacy/" class="inspect_link privacy_link"
+								title=" 隐私政策 " target="_blank"> 隐私政策 </a>
+						</label>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+	<script>
+
+		$(function () {		
+
+			//发送验证码
+			$("#registerButton").click(function () {
+				//验证验证码是否正确
+				var phone = $('#phone').val();
+				var photo_code = $('#photo_code').val();
+				var photoCodeId = $("input[name='captcha_id']").val();
+
+				var reg = /^[\d]{11}$/;
+				if (!reg.test(phone)) {
+					$(".error").html("Error：手机号输入错误");
+					return false;
+				}
+				if (photo_code.length < 4) {
+					$(".error").html("Error：图形验证码长度不合法")
+					return false;
+				}
+				
+				$.get('/pass/sendCode', { phone: phone, photo_code: photo_code, photoCodeId: photoCodeId }, function (response) {
+					console.log(response)
+					if (response.success == true) {						
+						//跳转到下页面
+						location.href="/pass/registerStep2?sign="+response.sign+"&photo_code="+photo_code;				
+					} else {
+						//改变验证码											
+						$(".error").html("Error：" + response.msg + ",请重新输入!")
+
+						//改变验证码
+						var captchaImgSrc = $(".captcha-img").attr("src")
+						$("#photo_code").val("")
+						$(".captcha-img").attr("src", captchaImgSrc + "?reload=" + (new Date()).getTime())
+					}
+
+				})
+			})
+		})
+	</script>
+</body>
+
+</html>

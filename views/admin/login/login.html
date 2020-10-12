@@ -1,0 +1,31 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+        "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>用户登录</title>
+  
+	<link rel="stylesheet" href="/static/admin/css/login.css"> 
+   </head>
+<body>
+<div class="container">
+        <div id="login">
+                <form action="/{{config "String" "adminPath" ""}}/login/dologin" method="post" id="myform">
+                    <input type="hidden" name="ajaxlogin" id="ajaxlogin">
+                    <input type="hidden" name="ajaxcode" id="ajaxcode">
+                    <div class="l_title">Tsung聪惠网上商城后台管理系统</div>
+                    <dl>
+                        <dd>管理员姓名：<input class="text" type="text" name="username" id="username"></dd>
+                        <dd>管理员密码：<input class="text" type="password" name="password" id="password"></dd>
+                        <!-- <dd>手机验证码：<input class="text" type="password" name="yanzhengma" id="yanzhengma">
+                            <a href="/{{config "String" "adminPath" ""}}/login/yanzhengma">获取验证码</a></dd> -->
+                        <dd>验　证　码：<input id="verify" type="text" name="captcha">  
+                            {{create_captcha}}
+                         </dd>		
+                        <dd><input type="submit" class="submit" name="dosubmit" value=""></dd>			
+                    </dl>
+                </form>
+            </div>
+</div>
+
+</body>
+</html>

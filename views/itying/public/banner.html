@@ -1,0 +1,93 @@
+<!-- start banner_x -->
+<div class="banner_x center">
+	<a href="/" target="_blank"><div class="logo fl"></div></a>
+	
+	<div class="nav fl">
+		<ul class="clearfix" id="nav_list">
+			<li class="link-category">
+				<a href="#">全部商品分类</a>
+
+				<div class="banner_y center">
+					<div class="nav">
+						<ul>
+							{{range $key,$value := .goodsCateList}}
+							<li>
+								{{if eq $value.Link ""}}
+									<a href="/category_{{$value.Id}}.html" target="_blank">{{$value.Title}}</a>	
+								{{else}}
+									<a href="{{$value.Link}}" target="_blank">{{$value.Title}}</a>
+								{{end}}
+								
+								<div class="pop">
+									<ol class="cate_list clear">
+												
+										{{range $k,$v := $value.GoodsCateItem}}
+											<li>
+												<div class="xuangou_left">
+				
+													{{if eq $v.Link ""}}
+				
+														<a href="/category_{{$v.Id}}.html" target="_blank" class="clearfix">
+															<div class="img fl"><img src="{{$v.CateImg | formatImg}}" alt="{{$v.Title}}"></div>
+															<span class="fl">{{$v.Title}}</span>									
+														</a>
+													{{else}}
+														<a href="{{$v.Link}}" target="_blank" class="clearfix">
+															<div class="img fl"><img src="{{$v.CateImg | formatImg}}" alt="{{$v.Title}}"></div>
+															<span class="fl">{{$v.Title}}</span>									
+														</a>
+													{{end}}
+				
+												</div>
+												
+											</li>
+										{{end}}						
+									</ol>
+								</div>
+							
+							</li>
+							{{end}}
+				
+						</ul>
+					</div>
+				
+				</div>
+				
+			</li>
+			{{range $key,$value := .middleNavList}}
+			<li>
+				<a href="#" target="_blank">{{$value.Title}}</a>
+			
+				<ol class="children-list clearfix">
+					{{range $k,$v := $value.GoodsItem}}
+						<li>
+							<a href="item_{{$v.Id}}.html" style="width: 120px;">
+								<img src="{{$v.GoodsImg | formatImg}}" alt="{{$v.Title}}" />
+								<!-- <p>{{$v.Title}}</p> -->
+								<p style="float: left;width: 100%;">
+									<span style="display: block;">{{$v.Title}}</span>
+									<span style="display: block;">{{$v.Price}}元</span>
+								</p>
+							</a>
+						</li>
+					{{end}}									
+				</ol>
+			
+			</li>
+			{{end}}
+		</ul>
+	</div>
+	<div class="search fr">
+		<form action="" method="post">
+			<div class="text fl">
+				<input type="text" class="shuru"  placeholder="搜索您需要的商品">
+			</div>
+			<div class="submit fl">
+				<input type="submit" class="sousuo" value="搜索"/>
+			</div>
+			<div class="clear"></div>
+		</form>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- end banner_x -->

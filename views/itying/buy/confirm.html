@@ -1,0 +1,176 @@
+{{template "../public/page_header.html" .}}
+<!--end header -->
+<link rel="stylesheet" href="/static/itying/css/pay.css" />
+<script src="/static/itying/js/bootstrap.js"></script>
+<link rel="stylesheet" href="/static/admin/bootstrap/css/bootstrap.css">
+<!-- start banner_x -->
+<div class="banner_x center clearfix">
+	<a href="/" target="_blank">
+		<div class="logo fl"></div>
+	</a>
+	<div class="wdgwc fl ml40">支付页面 </div>
+</div>
+
+<div class="page-main">
+	<div class="checkout-box">
+		<div class="section section-order">
+			<div class="order-info clearfix">
+				<div class="fl">
+					<h2 class="title">订单提交成功！去付款咯～</h2>
+					<p class="order-time" id="J_deliverDesc"></p>
+					<p class="order-time">请在<span class="pay-time-tip">47小时59分</span>内完成支付, 超时后将取消订单</p>
+					<p class="post-info" id="J_postInfo">
+						收货信息：{{.order.Name}} {{.order.Phone}} &nbsp;&nbsp; {{.order.Address}} </p>
+				</div>
+				<div class="fr">
+					<p class="total">
+						应付总额：<span class="money"><em>{{.order.AllPrice}}</em>元</span>
+					</p>
+					<br>
+					<br>
+					<a href="javascript:void(0);" class="show-detail" id="J_showDetail"
+						data-stat-id="db85b2885a2fdc53">订单详情</a>
+				</div>
+			</div>
+			<i class="iconfont icon-right">√</i>
+			<div class="order-detail">
+				<ul>
+					<li class="clearfix">
+						
+						<div class="content">
+							<strong>订单号：</strong>	<span class="order-num">{{.order.OrderId}}</span>
+						</div>
+					</li>
+					<li class="clearfix">
+					
+						<div class="content">
+							<strong>收货信息：</strong>{{.order.Name}} {{.order.Phone}} &nbsp;&nbsp; {{.order.Address}} </div>
+					</li>
+					<li class="clearfix">	
+						<div class="content">
+							<strong>商品名称：</strong>
+							{{range $key,$value:=.orderItem}}
+							<p>{{$value.ProductTitle}} {{$value.GoodsVersion}} {{$value.GoodsColor}}
+								数量：{{$value.ProductNum}} 价格：{{$value.ProductPrice}}</p>
+							{{end}}
+						</div>
+					</li>
+					<li class="clearfix hide">
+						<div class="label">配送时间：</div>
+						<div class="content">
+							不限送货时间 </div>
+					</li>
+				
+				</ul>
+			</div>
+		</div>
+
+		<div class="section section-payment">
+			<div class="cash-title" id="J_cashTitle">
+				选择以下支付方式付款
+			</div>
+
+			<div class="payment-box ">
+
+				<div class="payment-body">
+					<ul class="clearfix payment-list J_paymentList J_linksign-customize">
+						<li id="weixinPay">
+							<img src="/static/itying/image/weixinpay0701.png" alt="微信支付" />
+						</li>
+						<li id="alipay">
+							<a href="/alipay?id={{.order.Id}}" target="_blank"><img
+									src="/static/itying/image/payOnline_zfb.png" alt="支付宝" /></a>
+						</li>
+
+					</ul>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<script>
+	$(function () {
+
+		$(".show-detail").click(function () {
+			$(".order-detail").slideToggle();
+		})
+		$("#weixinPay").click(function () {
+			$('#weixinPayModel').modal('show');
+		})
+		$("#alipay").click(function () {
+			$('#alipayModel').modal('show');
+		})
+		$("#alipayDone").click(function () {
+			location.href = "/user/order"
+		})
+		setInterval(function () {
+			$.get('/buy/orderPayStatus?id={{.order.Id}}', function (response) {
+				console.log(response);
+				if (response.success) {
+					location.href = '/user/order'
+				}
+			})
+		}, 5000);
+
+
+	})
+</script>
+
+
+
+<!-- 微信支付 -->
+<div class="modal fade" id="weixinPayModel" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">微信支付</h4>
+			</div>
+			<div class="modal-body">
+				<img class="lcode" src="/wxpay?id={{.order.Id}}" />
+				<img class="rphone" src="/static/itying/image/phone.png" />
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 支付宝支付 -->
+
+<div class="modal fade" id="alipayModel" tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+						aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">在线支付提醒</h4>
+			</div>
+			<div class="modal-body">
+
+
+				感谢您的支持，支付完成后，页面会自动跳转到订单页面，若需要重新支付请点击“继续支付”按钮，若已完成支付请点击“已完成支付”
+
+				<div class="modal-footer">
+
+					<button type="button" class="btn btn-default" data-dismiss="modal">继续支付</button>
+
+					<button type="button" class="btn btn-primary" id="alipayDone">已完成支付</button>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>
+
+<!-- footer -->
+<footer class="center">
+
+	<div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>
+	<div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div>
+	<div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>
+</footer>
+
+</body>
+
+</html>

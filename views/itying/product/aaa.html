@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>自定义模板</h2>
+
+    <ul class="item show-less" id="list_item_class">
+        <span> 分类： </span>
+        {{$currentId := .curretGoodsCate.Id}}
+        {{range $key,$value := .subGoodsCate}}
+            {{if eq $value.Id $currentId}}
+                {{if eq $value.Link ""}}
+                    <li><a class="active" href="category_{{$value.Id}}.html">{{$value.Title}}</a></li>						
+                {{end}}	
+
+            {{else}}
+                {{if eq $value.Link ""}}
+                    <li><a href="category_{{$value.Id}}.html">{{$value.Title}}</a></li>
+                {{end}}								
+            {{end}}
+        {{end}}
+    </ul>
+</body>
+</html>
