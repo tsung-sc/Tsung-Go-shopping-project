@@ -24,7 +24,7 @@ func main() {
 
 	//后台配置允许跨域
 	beego.InsertFilter("*", beego.BeforeRouter, cors.Allow(&cors.Options{
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"tsung.top"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Authorization", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
 		ExposeHeaders:    []string{"Content-Length", "Access-Control-Allow-Origin", "Access-Control-Allow-Headers", "Content-Type"},
