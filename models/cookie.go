@@ -13,14 +13,14 @@ type cookie struct{}
 //写入数据的方法
 func (c cookie) Set(ctx *context.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), 3600*24*30)
+	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), 3600*24*30, "/", beego.AppConfig.String("domain"), nil, true)
 
 }
 
 //删除数据的方法
 func (c cookie) Remove(ctx *context.Context, key string, value interface{}) {
 	bytes, _ := json.Marshal(value)
-	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), -1)
+	ctx.SetSecureCookie(beego.AppConfig.String("secureCookie"), key, string(bytes), -1, "/", beego.AppConfig.String("domain"), nil, true)
 
 }
 

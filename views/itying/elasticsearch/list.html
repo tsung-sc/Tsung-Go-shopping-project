@@ -1,0 +1,59 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+<script type="text/javascript" src="/static/admin/js/jqPaginator.js"></script>
+<link rel="stylesheet" href="/static/admin/bootstrap/css/bootstrap.css">
+	<!-- start danpin -->
+		<div class="danpin center">
+			
+			<div class="search-filter center">
+				
+			</div>
+			
+			
+			<div class="main center mb20">
+				{{range $key,$value := .goodsList}}
+				<div class="mingxing fl mb20" style="border:2px solid #fff;width:230px;cursor:pointer;"
+					onmouseout="this.style.border='2px solid #fff'" onmousemove="this.style.border='2px solid red'">
+					<div class="sub_mingxing">
+						<a href="item_{{$value.Id}}.html" target="_blank">
+							<img src="{{$value.GoodsImg | formatImg}}" alt="{{$value.Title}}" />
+						</a>
+					</div>
+					<div class="pinpai"><a href="item_{{$value.Id}}.html" target="_blank">{{$value.Title}}</a></div>
+		
+					<div class="jiage">{{$value.Price}}元</div>
+				</div>
+				{{end}}
+				<div class="clear"></div>	
+				<div id="pagination" class="pagination fr">
+
+				</div>		
+			</div>
+			<div class="clear"></div>
+
+			
+		</div>
+		
+	<!-- end danpin -->
+
+	<script>
+
+		$(function(){
+			$('#pagination').jqPaginator({
+				totalPages: {{.totalPages}},
+				visiblePages: 10,
+				currentPage: {{.page}},
+				onPageChange: function (num, type) {
+				   console.log(num,type)
+				   if(type=="change"){
+						location.href="/search/goodsList?keyword={{.keyword}}&page="+num;
+				   }
+				}
+			});
+		})
+	</script>
+
+	{{template "../public/page_footer.html" .}}
+
+	</body>
+</html>

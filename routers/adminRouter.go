@@ -2,6 +2,7 @@ package routers
 
 import (
 	"xiaomi/controllers/admin"
+	"xiaomi/controllers/itying"
 	"xiaomi/middleware"
 
 	"github.com/astaxie/beego"
@@ -98,6 +99,8 @@ func init() {
 		//系统设置
 		beego.NSRouter("/setting", &admin.SettingController{}),
 		beego.NSRouter("/setting/doedit", &admin.SettingController{}, "post:DoEdit"),
+		//商品搜索管理
+		beego.NSRouter("/search/addGoods", &itying.SearchController{}, "get:AddGoods"),
 	)
 	beego.AddNamespace(ns)
 }

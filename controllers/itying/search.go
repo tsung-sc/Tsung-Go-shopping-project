@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"math"
 	"reflect"
 	"strconv"
 	"xiaomi/models"
@@ -152,6 +153,7 @@ func (c *SearchController) GetOne() {
 
 }
 
+//查询多条数据
 func (c *SearchController) Query() {
 
 	defer func() {
@@ -212,6 +214,8 @@ func (c *SearchController) FilterQuery() {
 
 //分页查询
 func (c *SearchController) GoodsList() {
+	c.SuperInit()
+	keyword := c.GetString("keyword")
 	defer func() {
 		if r := recover(); r != nil {
 			fmt.Println("Recovered in f", r)
@@ -223,9 +227,9 @@ func (c *SearchController) GoodsList() {
 	if page == 0 {
 		page = 1
 	}
-	pageSize := 2
+	pageSize := 5
 
-	query := elastic.NewMatchQuery("Title", "小米")
+	query := elastic.NewMatchQuery("Title", keyword)
 	searchResult, err := models.EsClient.Search().
 		Index("goods").
 		Query(query).
@@ -237,6 +241,13 @@ func (c *SearchController) GoodsList() {
 		// Handle error
 		panic(err)
 	}
+
+	//查询符合条件的商品的总数
+	searchResult2, _ := models.EsClient.Search().
+		Index("goods").          // search in index "twitter"
+		Query(query).            // specify the query
+		Do(context.Background()) // execute
+
 	goodsList := []models.Goods{}
 	var goods models.Goods
 	for _, item := range searchResult.Each(reflect.TypeOf(goods)) {
@@ -244,7 +255,10 @@ func (c *SearchController) GoodsList() {
 		fmt.Printf("标题： %v\n", g.Title)
 		goodsList = append(goodsList, g)
 	}
-
-	c.Data["json"] = goodsList
-	c.ServeJSON()
+	c.Data["goodsList"] = goodsList
+	c.Data["totalPages"] = math.Ceil(float64(len(searchResult2.Each(reflect.TypeOf(goods)))) / float64(pageSize))
+	c.Data["page"] = page
+	c.Data["keyword"] = keyword
+	// c.ServeJSON()
+	c.TplName = "itying/elasticsearch/list.html"
 }
