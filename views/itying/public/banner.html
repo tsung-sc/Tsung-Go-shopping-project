@@ -78,9 +78,9 @@
 		</ul>
 	</div>
 	<div class="search fr">
-		<form action="" method="post">
+		<form action="/search/goodsList" method="get">
 			<div class="text fl">
-				<input type="text" class="shuru"  placeholder="搜索您需要的商品">
+				<input type="text" class="shuru"  value="{{.keyword}}" id="keyword" name="keyword" placeholder="搜索您需要的商品">
 			</div>
 			<div class="submit fl">
 				<input type="submit" class="sousuo" value="搜索"/>
