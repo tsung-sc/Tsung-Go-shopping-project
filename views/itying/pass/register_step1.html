@@ -21,7 +21,7 @@
 				<h2>注册聪惠网账户</h2>
 			</div>
 			<div class="regist_main center">
-
+				<input class="form_input" type="text" name="nickname" id="nickname" placeholder="请填写正确的用户名" />
 				<input class="form_input" type="text" name="phone" id="phone" placeholder="请填写正确的手机号" />
 
 				<div class="yzm">
@@ -61,10 +61,14 @@
 			//发送验证码
 			$("#registerButton").click(function () {
 				//验证验证码是否正确
+				var nickname = $('#nickname').val();
 				var phone = $('#phone').val();
 				var photo_code = $('#photo_code').val();
 				var photoCodeId = $("input[name='captcha_id']").val();
-
+				if (nickname.length<1){
+					$(".error").html("Error：用户名不能为空")
+					return false;
+				}
 				var reg = /^[\d]{11}$/;
 				if (!reg.test(phone)) {
 					$(".error").html("Error：手机号输入错误");
@@ -75,7 +79,7 @@
 					return false;
 				}
 				
-				$.get('/pass/sendCode', { phone: phone, photo_code: photo_code, photoCodeId: photoCodeId }, function (response) {
+				$.get('/pass/sendCode', { phone: phone, photo_code: photo_code, photoCodeId: photoCodeId,nickname:nickname}, function (response) {
 					console.log(response)
 					if (response.success == true) {						
 						//跳转到下页面

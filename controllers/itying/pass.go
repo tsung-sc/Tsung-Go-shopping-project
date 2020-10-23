@@ -100,6 +100,7 @@ func (c *PassController) RegisterStep3() {
 }
 
 func (c *PassController) SendCode() {
+	nickname := c.GetString("nickname")
 	phone := c.GetString("phone")
 	photo_code := c.GetString("photo_code")
 	photoCodeId := c.GetString("photoCodeId")
@@ -114,6 +115,14 @@ func (c *PassController) SendCode() {
 			c.ServeJSON()
 			return
 		}
+	}
+	if nickname == "" {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "用户名不能为空",
+		}
+		c.ServeJSON()
+		return
 	}
 	if !models.Cpt.Verify(photoCodeId, photo_code) {
 		c.Data["json"] = map[string]interface{}{
@@ -136,7 +145,7 @@ func (c *PassController) SendCode() {
 		return
 	}
 	user := []models.User{}
-	models.DB.Where("phone=?", phone).Find(&user)
+	models.DB.Where("phone=?", phone).Or("nickname=?", nickname).Find(&user)
 	if len(user) > 0 {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
@@ -187,6 +196,7 @@ func (c *PassController) SendCode() {
 			c.SetSession("sms_code", sms_code)
 			//发送验证码 并给userTemp写入数据
 			oneUserTemp := models.UserTemp{
+				Nickname:  nickname,
 				Ip:        ip,
 				Phone:     phone,
 				SendCount: 1,
@@ -278,6 +288,7 @@ func (c *PassController) DoRegister() {
 	ip := strings.Split(c.Ctx.Request.RemoteAddr, ":")[0]
 	if len(userTemp) > 0 {
 		user := models.User{
+			Nickname: userTemp[0].Nickname,
 			Phone:    userTemp[0].Phone,
 			Password: models.Md5(password),
 			LastIp:   ip,

@@ -76,7 +76,7 @@ func (c *BaseController) SuperInit() {
 				</ol>
 
 			</li>
-		</ul> `, user.Phone)
+		</ul> `, user.Nickname)
 		c.Data["userinfo"] = str
 	} else {
 		str := fmt.Sprintf(`<ul>

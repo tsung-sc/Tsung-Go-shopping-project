@@ -6,6 +6,7 @@ import (
 
 type UserTemp struct {
 	Id        int
+	Nickname  string
 	Ip        string
 	Phone     string
 	SendCount int
