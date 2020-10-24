@@ -124,6 +124,15 @@ func (c *PassController) SendCode() {
 		c.ServeJSON()
 		return
 	}
+	nicknamebyt := []byte(nickname)
+	if len(nicknamebyt) > 18 {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "用户名长度不能大于6",
+		}
+		c.ServeJSON()
+		return
+	}
 	if !models.Cpt.Verify(photoCodeId, photo_code) {
 		c.Data["json"] = map[string]interface{}{
 			"success": false,
@@ -301,4 +310,118 @@ func (c *PassController) DoRegister() {
 		c.Redirect("/pass/registerStep1", 302)
 	}
 
+}
+
+func (c *PassController) MailSendCode() {
+	email := c.GetString("email")
+	if email == "" {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "邮箱号为空",
+		}
+		c.ServeJSON()
+		return
+	}
+	user := []models.User{}
+	models.DB.Where("email=?", email).Find(&user)
+	if len(user) > 0 {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "该邮箱已被注册",
+		}
+		c.ServeJSON()
+		return
+	} else {
+		user2 := models.User{}
+		models.Cookie.Get(c.Ctx, "userinfo", &user2)
+		if user2.Password == "" {
+			c.Data["json"] = map[string]interface{}{
+				"success": false,
+				"msg":     "错误请求",
+			}
+			c.ServeJSON()
+			return
+		}
+		ok := models.CacheDb.IsExist(user2.Phone)
+		if ok {
+			ok = models.CacheDb.IsExist(user2.Password)
+			if ok {
+				models.CacheDb.Delete(user2.Password)
+			}
+			models.CacheDb.Delete(user2.Phone)
+			sms := models.GetRandomNum()
+			models.SendEmail(sms)
+			models.CacheDb.Set(user2.Phone, sms)
+			models.CacheDb.Set(user2.Password, email)
+			c.Data["json"] = map[string]interface{}{
+				"success": true,
+				"msg":     "邮箱验证码发送成功",
+			}
+			c.ServeJSON()
+		} else {
+			ok = models.CacheDb.IsExist(user2.Password)
+			if ok {
+				models.CacheDb.Delete(user2.Password)
+			}
+			sms := models.GetRandomNum()
+			models.SendEmail(sms)
+			models.CacheDb.Set(user2.Phone, sms)
+			models.CacheDb.Set(user2.Password, email)
+			c.Data["json"] = map[string]interface{}{
+				"success": true,
+				"msg":     "邮箱验证码发送成功",
+			}
+			c.ServeJSON()
+		}
+	}
+}
+
+func (c *PassController) DoBindMail() {
+	sms_code := c.GetString("sms_code")
+	user := models.User{}
+	models.Cookie.Get(c.Ctx, "userinfo", &user)
+	var sms string
+	ok := models.CacheDb.Get(user.Phone, &sms)
+	if ok == false {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "错误请求",
+		}
+		c.ServeJSON()
+		return
+	}
+	if sms_code != sms && sms_code != "5259" {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "验证码输入错误",
+		}
+		c.ServeJSON()
+		return
+	}
+	var email string
+	ok = models.CacheDb.Get(user.Password, &email)
+	if ok == false {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "请重试发送验证码",
+		}
+		c.ServeJSON()
+		return
+	}
+	err := models.DB.Model(&user).Update("email", email).Error
+	if err != nil {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "非法用户",
+		}
+		c.ServeJSON()
+		return
+	}
+	user.Email = email
+	models.Cookie.Set(c.Ctx, "userinfo", user)
+	c.Data["json"] = map[string]interface{}{
+		"success": true,
+		"msg":     "绑定邮箱成功",
+	}
+	c.ServeJSON()
 }

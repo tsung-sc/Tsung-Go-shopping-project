@@ -31,7 +31,7 @@
 	<div class="right fr">
 		<div class="h3 ml20 mt20">{{.goods.Title}}</div>
 		<div class="jianjie mr40 ml20 mt10">{{.goods.SubTitle}}</div>
-		<div class="jiage ml20 mt10">{{.goods.Price}}元 　<span class="old_price">{{.goods.MarketPrice}}元</span></div>
+		<div class="jiage ml20 mt10">现价：{{.goods.Price}}元　<span class="old_price">原价：{{.goods.MarketPrice}}元</span></div>
 		{{$goodsId := .goods.Id}}
 		{{if .relationGoods}}
 			<div class="ft20 ml20 mt20">选择版本</div>
@@ -88,49 +88,23 @@
 	<div class="c_left">
 
 		<h2>看了又看</h2>
-
+		{{range $key,$value:=.goodsAds}}
 		<div class="item">
+			
+			<a target="_blank" href="item_{{$value.Id}}.html">
 
-			<a target="_blank" href="#">
+				<img src={{$value.GoodsImg}} />
 
-				<img src="//img10.360buyimg.com/N1/jfs/t24550/324/210570328/559386/cc08975f/5b2910bbNfaceb0b4.jpg" />
+				<p style="color: red;" class="price recommendLookPrice4183081">￥{{$value.Price}}元</p>
 
-				<p class="price recommendLookPrice4183081">￥31.90</p>
-
-				<p>三利 纯棉A类标准简约素雅大浴巾 70×140cm 男女同款 柔软舒适吸水裹身巾 豆绿</p>
+				<p style="color: red;">{{$value.Title}}</p>
+				<p style="color: red;">{{$value.SubTitle}}</p>
 
 			</a>
-
-
+		
 		</div>
-		<div class="item">
-
-			<a target="_blank" href="#">
-
-				<img src="//img10.360buyimg.com/N1/jfs/t24550/324/210570328/559386/cc08975f/5b2910bbNfaceb0b4.jpg" />
-
-				<p class="price recommendLookPrice4183081">￥31.90</p>
-
-				<p>三利 纯棉A类标准简约素雅大浴巾 70×140cm 男女同款 柔软舒适吸水裹身巾 豆绿</p>
-
-			</a>
-
-
-		</div>
-		<div class="item">
-
-			<a target="_blank" href="#">
-
-				<img src="//img10.360buyimg.com/N1/jfs/t24550/324/210570328/559386/cc08975f/5b2910bbNfaceb0b4.jpg" />
-
-				<p class="price recommendLookPrice4183081">￥31.90</p>
-
-				<p>三利 纯棉A类标准简约素雅大浴巾 70×140cm 男女同款 柔软舒适吸水裹身巾 豆绿</p>
-
-			</a>
-
-
-		</div>
+		{{end}}
+		
 	</div>
 
 

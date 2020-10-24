@@ -13,9 +13,6 @@
         </div>
         <div class="rtcont fr">
             <div class="portal-content-box">
-
-
-
                 <div class="box-bd">
                     <div class="portal-main clearfix">
                         <div class="user-card">
@@ -32,12 +29,15 @@
                             <ul class="action-list">
                                 <li>账户安全：<span class="level level-2">普通</span></li>
                                 <li>绑定手机：<span class="tel">{{.user.Phone}}</span></li>
-
+                                {{if ne .user.Email ""}}
+                                <li>绑定邮箱号：<span class="tel">{{.user.Email}}</span></li>
+                                {{else}}
                                 <li>绑定邮箱：<span class="tel"></span><a class="btn btn-small btn-primary"
-                                        href="https://account.xiaomi.com/pass/userInfo" target="_blank"
-                                        data-stat-id="d36648c4ef44cb77"
-                                        onclick="_msq.push(['trackEvent', 'f4f3444fdfa3d27a-d36648c4ef44cb77', 'https://account.xiaomi.com/pass/userInfo', 'pcpid', '']);">绑定</a>
+                                    href="/user/bindmail" target="_blank"
+                                    data-stat-id="d36648c4ef44cb77"
+                                    onclick="_msq.push(['trackEvent', 'f4f3444fdfa3d27a-d36648c4ef44cb77', 'https://account.xiaomi.com/pass/userInfo', 'pcpid', '']);">绑定</a>
                                 </li>
+                                {{end}}
                             </ul>
                         </div>
                     </div>
@@ -65,9 +65,9 @@
 <!-- self_info -->
 
 <footer class="mt20 center">
-    <div class="mt20">小米商城|MIUI|米聊|多看书城|小米路由器|视频电话|小米天猫店|小米淘宝直营店|小米网盟|小米移动|隐私政策|Select Region</div>
-    <div>©mi.com 京ICP证110507号 京ICP备10046444号 京公网安备11010802020134号 京网文[2014]0059-0009号</div>
-    <div>违法和不良信息举报电话：185-0130-1238，本网站所列数据，除特殊说明，所有数据均出自我司实验室测试</div>
+    <div class="mt20">聪惠商城</div>
+    <div>联系我:  genjutsu2010@gamil.com</div>
+    <div>Copyright © 2020~2020  Power by Tsung</div>
 </footer>
 </body>
 

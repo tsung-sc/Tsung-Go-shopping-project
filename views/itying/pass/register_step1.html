@@ -69,6 +69,10 @@
 					$(".error").html("Error：用户名不能为空")
 					return false;
 				}
+				if (nickname.length>6){
+					$(".error").html("Error：用户名长度最大为6")
+					return false;
+				}
 				var reg = /^[\d]{11}$/;
 				if (!reg.test(phone)) {
 					$(".error").html("Error：手机号输入错误");

@@ -102,3 +102,7 @@ func (c *UserController) OrderInfo() {
 	}
 	c.TplName = "itying/user/order_info.html"
 }
+
+func (c *UserController) BindMail() {
+	c.TplName = "itying/pass/bindmail.html"
+}

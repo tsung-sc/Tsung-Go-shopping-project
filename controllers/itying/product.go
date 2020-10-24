@@ -110,6 +110,17 @@ func (c *ProductController) ProductItem() {
 	models.DB.Where("goods_id=?", goods.Id).Find(&goodsAttr)
 	c.Data["goodsAttr"] = goodsAttr
 
+	//8、看了又看商品推荐
+	goodsAds := []models.Goods{}
+	models.DB.Limit(3).Where("cate_id=? AND id!=?", goods.CateId, goods.Id).Not("id in (?)", relationIds).Limit(3).Order("sort desc").Find(&goodsAds)
+	if len(goodsAds) == 0 {
+		goodsAds2 := []models.Goods{}
+		goodsIdstr := strconv.Itoa(goods.Id)
+		models.DB.Limit(3).Not("id in (?)", append(relationIds, goodsIdstr)).Order("sort desc").Find(&goodsAds2)
+		c.Data["goodsAds"] = goodsAds2
+	} else {
+		c.Data["goodsAds"] = goodsAds
+	}
 	c.TplName = "itying/product/item.html"
 }
 

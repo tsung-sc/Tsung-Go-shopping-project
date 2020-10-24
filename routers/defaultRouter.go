@@ -22,7 +22,14 @@ func init() {
 	beego.Router("/cart/changeAllCart", &itying.CartController{}, "get:ChangeAllCart")
 
 	beego.Router("/pass/sendCode", &itying.PassController{}, "get:SendCode")
+	beego.InsertFilter("/pass/MailsendCode", beego.BeforeRouter, middleware.DefaultAuth)
+	beego.Router("/pass/MailsendCode", &itying.PassController{}, "get:MailSendCode")
+
 	beego.Router("/pass/doRegister", &itying.PassController{}, "post:DoRegister")
+
+	beego.InsertFilter("/pass/doBindMail", beego.BeforeRouter, middleware.DefaultAuth)
+	beego.Router("/pass/doBindMail", &itying.PassController{}, "get:DoBindMail")
+
 	beego.Router("/pass/validateSmsCode", &itying.PassController{}, "get:ValidateSmsCode")
 	beego.Router("/pass/login", &itying.PassController{}, "get:Login")
 	beego.Router("/pass/registerStep1", &itying.PassController{}, "get:RegisterStep1")
@@ -58,6 +65,7 @@ func init() {
 	beego.Router("/user", &itying.UserController{})
 	beego.Router("/user/order", &itying.UserController{}, "get:OrderList")
 	beego.Router("/user/orderinfo", &itying.UserController{}, "get:OrderInfo")
+	beego.Router("/user/bindmail", &itying.UserController{}, "get:BindMail")
 
 	//搜索
 	// beego.Router("/search", &itying.SearchController{})

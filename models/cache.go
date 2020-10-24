@@ -65,3 +65,19 @@ func (c cacheDb) Get(key string, obj interface{}) bool {
 	}
 	return false
 }
+
+//删除数据的方法
+func (c cacheDb) Delete(key string) {
+	if enableRedis {
+		redisClient.Delete(key)
+	}
+}
+
+//检查数据是否存在的方法
+func (c cacheDb) IsExist(key string) bool {
+	if enableRedis {
+		ok := redisClient.IsExist(key)
+		return ok
+	}
+	return false
+}

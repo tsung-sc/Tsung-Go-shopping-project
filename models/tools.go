@@ -159,3 +159,7 @@ func SendMsg(str string) {
 	//2、测试阶段保存短信到文件里面
 	ioutil.WriteFile("code.txt", []byte(str), 06666)
 }
+
+func SendEmail(str string) {
+	beego.Info("发送验证邮件成功")
+}

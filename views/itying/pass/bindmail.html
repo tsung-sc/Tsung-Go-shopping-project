@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="author" content="order by dede58.com"/>
+		<title>绑定用户邮箱</title>
+		<link rel="stylesheet" href="/static/itying/css/login.css" />
+		<script src="/static/itying/js/jquery-1.10.1.js"></script>	
+	</head>
+	<body class="register_page">
+		
+			<div class="regist">
+				<div class="regist_center">
+
+					<div class="logo">
+						<img src="/static/itying/image/logo_top.png" alt="nest小米">
+					</div>
+					<div class="regist_top">
+							<h2>绑定用户邮箱</h2>
+					</div>
+					<div class="regist_main center">
+						<p>请输入您需要绑定的邮箱号</p>
+						<br>
+						<br>
+
+						<!-- <form action="/user/dobindmail" method="post" id="form">		 -->
+						
+							<div>
+								<input class="form_input" type="email" id="email" name="email" placeholder="请输入需要绑定的邮箱号"/>
+							</div>
+							<div class="yzm">
+								<input type="text" id="sms_code" name="sms_code" placeholder="请输入邮箱验证码" />
+								<button id="sendCode">立即发送</button>
+							</div>
+
+							<div class="error">
+
+							</div>
+
+							<div class="regist_submit">
+									<!-- <input class="submit" id="nextStep" type="submit" name="submit" value="确认绑定" > -->
+									<button class="submit" id="registerButton">
+										确认绑定
+									</button>
+							</div>
+						<!-- </form> -->
+					</div>
+					
+					
+				</div>
+			</div>
+			<script>
+			
+	$(function () {
+
+	var timer = 0;
+	function Countdown() {
+	if (timer >= 1) {
+		timer -= 1;
+		$("#sendCode").attr('disabled', true);
+		$("#sendCode").html('重新发送(' + timer + ')');
+		setTimeout(function () {
+			Countdown();
+		}, 1000);
+	} else {
+		$("#sendCode").attr('disabled', false)
+		$("#sendCode").html('立即发送');
+	}
+}
+//发送验证码
+Countdown();
+
+
+$("#sendCode").click(function () {
+	$(".error").html("")
+	var email=$('#email').val();
+	if(email != ""){
+	var reg = /^\w+((-\w+)|(\.\w+))*\@[A-Za-z0-9]+((\.|-)[A-Za-z0-9]+)*\.[A-Za-z0-9]+$/;
+	isok= reg.test(email);
+    if(!isok) {
+	$(".error").html("邮箱格式错误")
+	return false;
+    }	
+	}else if(email==""){
+	$(".error").html("邮箱不能为空")
+	return false;
+	}	
+	timer=60
+	Countdown();
+	// var phone = $("#phone").val()
+	// var photo_code = $("#photo_code").val()
+	// var photoCodeId = "resend"
+	// alert('重新发送');
+	$.get('/pass/MailsendCode', { email: email }, function (response) {
+		console.log(response)
+		if (response.success != true) {											
+			$(".error").html("Error：" + response.msg + ",请重新输入!")
+		} 
+	})
+})
+
+})
+
+$(function () {		
+
+//发送验证码
+$("#registerButton").click(function () {
+	//验证验证码是否正确
+	var sms_code = $('#sms_code').val();
+	if (sms_code.length<4){
+		$(".error").html("Error：验证码长度不正确")
+		return false;
+	}
+	$.get('/pass/doBindMail', {sms_code: sms_code}, function (response) {
+		console.log(response)
+		if (response.success == true) {						
+			//跳转到下页面
+			location.href="/user";				
+		} else {											
+			$(".error").html("Error：" + response.msg + ",请重新输入!")
+		}
+
+	})
+})
+})
+			</script>
+	</body>
+</html>
