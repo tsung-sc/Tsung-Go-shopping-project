@@ -71,10 +71,13 @@
 			<div class="bot mt20 ft20 ftbc">总计：{{.goods.Price}}元</div>
 		</div>
 		<div class="xiadan ml20 mt10">
+			{{if .collectStatus}}
+			<input class="jrgwc" type="button" name="jrgwc" id="collect" value="取消收藏" />
+			{{else}}
+			<input class="jrgwc" type="button" name="jrgwc" id="collect" value="加入收藏" />
+			{{end}}
 			<input class="jrgwc" type="button" name="jrgwc" id="addCart" value="加入购物车" />
-
-
-
+			
 		</div>
 	</div>
 	<div class="clear"></div>
@@ -214,11 +217,22 @@
 	
 			var color_id = $('#color_list .active').attr('color_id');
 	
-			location.href = "/cart/addCart?goods_id=" + goods_id + '&color_id=' + color_id;
-	
-	
+			location.href = "/cart/addCart?goods_id=" + goods_id + '&color_id=' + color_id;	
 		})
-	})
+
+		$('#collect').click(function () {	
+	
+		var goods_id = $('#color_list .active').attr('goods_id');
+            $.get('/product/collect?goods_id='+goods_id,function(response){
+                    if(response.success){
+                        location.reload();
+                    }else if(response.msg="请先登陆"){
+						location.href = "/pass/login"
+					}
+                }.bind(this))
+               
+            });
+})
 	</script>
 
 {{template "../public/page_footer.html" .}}

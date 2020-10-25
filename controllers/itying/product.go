@@ -121,6 +121,23 @@ func (c *ProductController) ProductItem() {
 	} else {
 		c.Data["goodsAds"] = goodsAds
 	}
+
+	//9、查询商品是否被当前登陆用户收藏
+	collect := models.GoodsCollect{}
+	user := models.User{}
+	isExist := models.Cookie.Get(c.Ctx, "userinfo", &user)
+	if isExist == false {
+		c.Data["collectStatus"] = false
+		c.TplName = "itying/product/item.html"
+		return
+	}
+	ok := models.DB.Where("user_id=? AND good_id=?", user.Id, goods.Id).First(&collect)
+	if ok.RowsAffected == 0 {
+		c.Data["collectStatus"] = false
+		c.TplName = "itying/product/item.html"
+	} else {
+		c.Data["collectStatus"] = true
+	}
 	c.TplName = "itying/product/item.html"
 }
 
@@ -174,4 +191,57 @@ func (c *ProductController) GetImgList() {
 		}
 		c.ServeJSON()
 	}
+}
+
+func (c *ProductController) Collect() {
+	good_id, err := c.GetInt("goods_id")
+	if err != nil {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "传参错误",
+		}
+		c.ServeJSON()
+		return
+	}
+	user := models.User{}
+	ok := models.Cookie.Get(c.Ctx, "userinfo", &user)
+	if ok != true {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "请先登陆",
+		}
+		c.ServeJSON()
+		return
+	}
+	isExist := models.DB.First(&user)
+	if isExist.RowsAffected == 0 {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "非法用户",
+		}
+		c.ServeJSON()
+		return
+	}
+
+	goodCollect := models.GoodsCollect{}
+	isExist = models.DB.Where("user_id=? AND good_id=?", user.Id, good_id).First(&goodCollect)
+	if isExist.RowsAffected == 0 {
+		goodCollect.UserId = user.Id
+		goodCollect.GoodId = good_id
+		goodCollect.AddTime = models.GetDay()
+		models.DB.Create(&goodCollect)
+		c.Data["json"] = map[string]interface{}{
+			"success": true,
+			"msg":     "收藏成功",
+		}
+		c.ServeJSON()
+	} else {
+		models.DB.Delete(&goodCollect)
+		c.Data["json"] = map[string]interface{}{
+			"success": true,
+			"msg":     "取消收藏成功",
+		}
+		c.ServeJSON()
+	}
+
 }

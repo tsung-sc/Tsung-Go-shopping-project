@@ -70,7 +70,7 @@ func (c *BaseController) SuperInit() {
 				<ol>
 					<li><a href="/user">个人中心</a></li>
 
-					<li><a href="#">喜欢</a></li>
+					<li><a href="#">我的收藏</a></li>
 
 					<li><a href="/pass/loginOut">退出登录</a></li>
 				</ol>

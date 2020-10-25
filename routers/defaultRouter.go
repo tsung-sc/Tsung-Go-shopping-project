@@ -13,11 +13,13 @@ func init() {
 	beego.Router("/category_:id([0-9]+).html", &itying.ProductController{}, "get:CategoryList")
 	beego.Router("/item_:id([0-9]+).html", &itying.ProductController{}, "get:ProductItem")
 	beego.Router("/product/getImgList", &itying.ProductController{}, "get:GetImgList")
+	beego.Router("/product/collect", &itying.ProductController{}, "get:Collect")
 	beego.Router("/cart", &itying.CartController{})
 	beego.Router("/cart/addCart", &itying.CartController{}, "get:AddCart")
 	beego.Router("/cart/incCart", &itying.CartController{}, "get:IncCart")
 	beego.Router("/cart/decCart", &itying.CartController{}, "get:DecCart")
 	beego.Router("/cart/delCart", &itying.CartController{}, "get:DelCart")
+
 	beego.Router("/cart/changeOneCart", &itying.CartController{}, "get:ChangeOneCart")
 	beego.Router("/cart/changeAllCart", &itying.CartController{}, "get:ChangeAllCart")
 
