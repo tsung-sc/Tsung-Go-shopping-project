@@ -3,7 +3,7 @@
 # **Tsung聪慧商城项目（基于Go语言开发）**
 ![GitHub](https://img.shields.io/github/license/tsung-sc/Tsung-Go-shopping-project)
 ![Golang](https://img.shields.io/badge/Golang-1.14.4-brightgreen)
-![Beego](https://img.shields.io/badge/Beegol-v1.12.2-brightgreen)
+![Beego](https://img.shields.io/badge/Beego-v1.12.2-brightgreen)
 ![Mysql](https://img.shields.io/badge/MySql-5.6.49-brightgreen)
 ![Redis](https://img.shields.io/badge/Redis-6.0.8-brightgreen)
 ![Nginx](https://img.shields.io/badge/Nginx-1.18.0-brightgreen)
