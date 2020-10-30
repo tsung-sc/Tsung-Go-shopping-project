@@ -1,7 +1,7 @@
 ![Tsung聪慧商城项目](https://img-blog.csdnimg.cn/20201030110321665.png#pic_center)
 
 # **Tsung聪慧商城项目（基于Go语言开发）**
-
+![GitHub](https://img.shields.io/github/license/tsung-sc/Tsung-Go-shopping-project)
 </font>
 
 @[TOC](项目目录)
