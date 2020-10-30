@@ -2,9 +2,10 @@
 
 # **Tsung聪慧商城项目（基于Go语言开发）**
 ![GitHub](https://img.shields.io/github/license/tsung-sc/Tsung-Go-shopping-project)
+![Golang](https://img.shields.io/badge/Golang-1.14.4-brightgreen)
+![Beego](https://img.shields.io/badge/Golang-v1.12.2-brightgreen)
 </font>
 
-@[TOC](项目目录)
 
 
 <hr style=" border:solid; width:100px; height:1px;" color=#000000 size=1">
