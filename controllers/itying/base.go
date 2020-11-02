@@ -70,7 +70,7 @@ func (c *BaseController) SuperInit() {
 				<ol>
 					<li><a href="/user">个人中心</a></li>
 
-					<li><a href="#">我的收藏</a></li>
+					<li><a href="/user/collect">我的收藏</a></li>
 
 					<li><a href="/pass/loginOut">退出登录</a></li>
 				</ol>
@@ -80,9 +80,9 @@ func (c *BaseController) SuperInit() {
 		c.Data["userinfo"] = str
 	} else {
 		str := fmt.Sprintf(`<ul>
-			<li><a href="/pass/login" target="_blank">登录</a></li>
+			<li><a href="/pass/login" target="_self">登录</a></li>
 			<li>|</li>
-			<li><a href="/pass/registerStep1" target="_blank" >注册</a></li>
+			<li><a href="/pass/registerStep1" target="_self" >注册</a></li>
 		</ul>`)
 		c.Data["userinfo"] = str
 	}

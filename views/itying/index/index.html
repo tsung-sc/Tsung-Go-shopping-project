@@ -3,7 +3,7 @@
 
 <!-- start banner_x -->
 <div class="banner_x center">
-	<a href="./index.html" target="_blank"><div class="logo fl"></div></a>
+	<a href="/" target="_self"><div class="logo fl"></div></a>
 	<a href=""><div class="ad_top fl"></div></a>
 	<div class="nav fl">
 		<ul class="clearfix" id="nav_list">
@@ -14,7 +14,7 @@
 				<ol class="children-list clearfix">
 					{{range $k,$v := $value.GoodsItem}}
 						<li>
-							<a href="item_{{$v.Id}}.html" style="width: 120px;">
+							<a href="item_{{$v.Id}}.html" target="_blank" style="width: 120px;">
 								<img src="{{$v.GoodsImg | formatImg}}" alt="{{$v.Title}}" />
 								<!-- <p>{{$v.Title}}</p> -->
 								<p style="float: left;width: 100%;">
@@ -190,7 +190,7 @@
 			{{range $key,$value := .phoneList}}
 			<div class="hot fl">
 				<div class="xinpin"><span style="background:#fff"></span></div>
-				<div class="tu"><a href="item_{{$value.Id}}.html"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
+				<div class="tu"><a href="item_{{$value.Id}}.html" target="_blank"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
 				<div class="miaoshu"><a href="">{{$value.Title}}</a></div>
 				<div class="jiage">{{$value.Price}}元</div>
 				<div class="pingjia">372人评价</div>
@@ -228,7 +228,7 @@
 			{{range $key,$value := .tvList}}
 			<div class="hot fl">
 				<div class="xinpin"><span style="background:#fff"></span></div>
-				<div class="tu"><a href="item_{{$value.Id}}.html"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
+				<div class="tu"><a href="item_{{$value.Id}}.html" target="_blank"><img src="{{$value.GoodsImg | formatImg}}"></a></div>
 				<div class="miaoshu"><a href="">{{$value.Title}}</a></div>
 				<div class="jiage">{{$value.Price}}元</div>
 				<div class="pingjia">372人评价</div>

@@ -106,3 +106,28 @@ func (c *UserController) OrderInfo() {
 func (c *UserController) BindMail() {
 	c.TplName = "itying/pass/bindmail.html"
 }
+
+func (c *UserController) GetCollect() {
+	c.SuperInit()
+	page, _ := c.GetInt("page")
+	if page == 0 {
+		page = 1
+	}
+	pageSize := 2
+	user := models.User{}
+	models.Cookie.Get(c.Ctx, "userinfo", &user)
+	collect := []models.GoodsCollect{}
+	models.DB.Where("user_id=?", user.Id).Find(&collect)
+	var goodsId []int
+	for i := 0; i < len(collect); i++ {
+		goodsId = append(goodsId, collect[i].GoodId)
+	}
+	goods := []models.Goods{}
+	models.DB.Where("id in (?)", goodsId).Offset((page - 1) * pageSize).Limit(pageSize).Find(&goods)
+	var count int
+	models.DB.Where("id in (?)", goodsId).Table("goods").Count(&count)
+	c.Data["collect"] = goods
+	c.Data["totalPages"] = math.Ceil(float64(count) / float64(pageSize))
+	c.Data["page"] = page
+	c.TplName = "itying/user/order_collect.html"
+}

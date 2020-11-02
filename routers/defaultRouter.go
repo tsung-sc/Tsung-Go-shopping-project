@@ -68,6 +68,7 @@ func init() {
 	beego.Router("/user/order", &itying.UserController{}, "get:OrderList")
 	beego.Router("/user/orderinfo", &itying.UserController{}, "get:OrderInfo")
 	beego.Router("/user/bindmail", &itying.UserController{}, "get:BindMail")
+	beego.Router("/user/collect", &itying.UserController{}, "get:GetCollect")
 
 	//搜索
 	// beego.Router("/search", &itying.SearchController{})

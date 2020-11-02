@@ -1,0 +1,110 @@
+{{template "../public/page_header.html" .}}
+{{template "../public/banner.html" .}}
+
+<script src="/static/itying/js/jqPaginator.js"></script>
+
+<link rel="stylesheet" href="/static/itying/css/order.css" />
+
+
+<!-- self_info -->
+<div class="grzxbj">
+	<div class="selfinfo center">
+		<div class="lfnav fl">
+			<div class="ddzx">用户中心</div>
+			<div class="subddzx">
+				{{template "../public/user_left.html" .}}
+			</div>
+
+		</div>
+		<div class="rtcont fr">
+			<h1>我的收藏</h1>
+
+			<div class="uc-content-box">
+
+				{{if .collect}}
+				
+				<div class="box-bd">
+					<table class="table">
+
+						{{range $key,$value := .collect}}
+						<input type="hidden" id="goods_id" name="goods_id" value="{{$value.Id}}" />
+						<tr>
+							<td colspan="2">
+									<div class="order-info clearfix">
+										<div class="col_pic">
+											<img src="/{{$value.GoodsImg}}" />
+										</div>
+										<div class="col_title">
+											<p>{{$value.Title}}</p>
+											<p>{{$value.Price}}元</p>
+											<p>{{$value.SubTitle}}</p>
+										</div>
+									</div>
+								
+							</td>
+
+							<td>
+								<span>
+									<a class="delete btn btn-primary" href="/item_{{$value.Id}}.html">查看商品详情</a>
+									<br>
+									<br>
+									<input class="delete btn" id="cancelCollect" type="button" name="cancelCollect" value="取消收藏">
+								</span>
+							</td>
+						</tr>
+						{{end}}
+					</table>
+
+					<div id="page" class="pagination fr"></div>
+				</div>
+				{{else}}
+					<p style="text-align:center; padding-top:100px;">当前还没有收藏的商品哦！</p>
+				{{end}}
+			</div>
+
+			<script>
+				
+				$('#page').jqPaginator({
+					totalPages: {{.totalPages}},
+					visiblePages: 8,
+					currentPage: {{.page}},
+					onPageChange: function (num, type) {						
+						if (type == 'change') {
+							location.href = "/user/collect?page=" + num;
+						}
+					}
+				});
+
+
+				$(function () {
+
+$("#cancelCollect").click(function (e) {
+
+	var goods_id = $('#goods_id').val();
+
+	$.get('/product/collect', { goods_id: goods_id}, function (response) {
+		console.log()
+		if (response.success == true) {
+			location.reload();
+		}
+	})
+
+})
+
+})
+			</script>
+
+		</div>
+		<div class="clear"></div>
+	</div>
+</div>
+<!-- self_info -->
+
+<footer class="mt20 center">
+    <div class="mt20">聪惠商城</div>
+    <div>联系我:  genjutsu2010@gamil.com</div>
+    <div>Copyright © 2020~2020  Power by Tsung</div>
+</footer>
+</body>
+
+</html>
