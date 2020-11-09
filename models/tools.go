@@ -24,6 +24,13 @@ func UnixToDate(timestamp int) string {
 	return t.Format("2006-01-02 15:04:05")
 }
 
+func Unix64ToDate(timestamp int64) string {
+
+	t := time.Unix(timestamp, 0)
+
+	return t.Format("2006-01-02 15:04:05")
+}
+
 //2020-05-02 15:04:05
 func DateToUnix(str string) int64 {
 	template := "2006-01-02 15:04:05"

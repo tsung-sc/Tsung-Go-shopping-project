@@ -17,7 +17,7 @@
 
 		</div>
 		<div class="rtcont fr">
-			<h1>我的收藏</h1>
+			<h1>我的订单</h1>
 
 			<div class="uc-content-box">
 
@@ -94,12 +94,32 @@
 									<br>
 									<a class="delete btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
 								</span>
+								{{else if ne $value.OrderStatus 4}}
+								<span>
+									<a class="btn" href="#">申请售后</a>
+									<br>
+									<br>
+									<a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+								</span>
+								{{else if ne $value.IsComment 1}}
+								<span>
+									<a class="btn" href="#">申请售后</a>
+									<br>
+									<br>
+									<a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+									<br>
+									<br>
+									<a class="delete btn btn-primary" href="/user/comment?id={{$value.Id}}">立即评价</a>
+								</span>
 								{{else}}
 								<span>
 									<a class="btn" href="#">申请售后</a>
 									<br>
 									<br>
 									<a class="btn" href="/user/orderinfo?id={{$value.Id}}">订单详情</a>
+									<br>
+									<br>
+									<a class="btn" href="/user/comment?id={{$value.Id}}">已评价</a>
 								</span>
 								{{end}}
 							</td>

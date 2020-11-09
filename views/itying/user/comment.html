@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>商品评价</title>
+
+<link type="text/css" href="/static/comment/css/style.css" rel="stylesheet" />
+
+</head>
+<body>
+
+<div class="order-evaluation clearfix">
+    <h4>给“{{.orderitem.ProductTitle}}”的评价</h4>
+    <input type="hidden" id="order_id" name="order_id" value="{{.orderitem.OrderId}}" />
+    <p>请严肃认真对待此次评价哦！您的评价对我们真的真的非常重要！</p>
+    <div class="block">
+        <ul>
+            <li data-default-index="0">
+				<span>
+					<img src="/static/comment/img/x1.png">
+					<img src="/static/comment/img/x1.png">
+					<img src="/static/comment/img/x1.png">
+					<img src="/static/comment/img/x1.png">
+					<img src="/static/comment/img/x1.png">
+				</span>
+                <em class="level"></em>
+            </li>
+        </ul>
+    </div>
+    <div class="order-evaluation-text">
+        本次交易，乖，摸摸头 给您留下了什么印象呢？
+    </div>
+    <div class="order-evaluation-checkbox">
+        <ul class="clearfix">
+            <li class="order-evaluation-check" id="a1" data-impression="1">价格实惠<i class="iconfont icon-checked"></i></li>
+            <li class="order-evaluation-check" id="a2" data-impression="2">交付准时<i class="iconfont icon-checked"></i></li>
+            <li class="order-evaluation-check" id="a3" data-impression="3">包装精美<i class="iconfont icon-checked"></i></li>
+            <li class="order-evaluation-check" id="a4" data-impression="4">服务态度友善<i class="iconfont icon-checked"></i></li>
+            <li class="order-evaluation-check" id="a5" data-impression="5">能力待提高<i class="iconfont icon-checked"></i></li>
+            <li class="order-evaluation-check" id="a6" data-impression="6">延迟送达<i class="iconfont icon-checked"></i></li>
+        </ul>
+    </div>
+    <div class="order-evaluation-textarea">
+        <textarea name="content" id="TextArea1" onKeyUp="words_deal();" ></textarea>
+        <span>还可以输入<em id="textCount">140</em>个字</span>
+    </div>
+    <a href="javascript:;" id="order_evaluation">评价完成</a>
+</div>
+
+<div id="order_evaluate_modal" class="dmlei_tishi_info"></div>
+
+
+<script type="text/javascript" src="/static/comment/js/jquery.min.js"></script>
+<script type="text/javascript">
+    /*
+     * 根据index获取 str
+     * **/
+    window.onload=function(){
+        
+    }
+    function byIndexLeve(index){
+        var str ="";
+        switch (index)
+        {
+            case 0:
+                str="差评";
+                break;
+            case 1:
+                str="较差";
+                break;
+            case 2:
+                str="中等";
+                break;
+            case 3:
+                str="一般";
+                break;
+            case 4:
+                str="好评";
+                break;
+        }
+        return str;
+    }
+    //  星星数量
+    var stars = [
+        ['x2.png', 'x1.png', 'x1.png', 'x1.png', 'x1.png'],
+        ['x2.png', 'x2.png', 'x1.png', 'x1.png', 'x1.png'],
+        ['x2.png', 'x2.png', 'x2.png', 'x1.png', 'x1.png'],
+        ['x2.png', 'x2.png', 'x2.png', 'x2.png', 'x1.png'],
+        ['x2.png', 'x2.png', 'x2.png', 'x2.png', 'x2.png'],
+    ];
+    $(".block li").find("img").hover(function(e) {
+        var obj = $(this);
+        var index = obj.index();
+        if(index < (parseInt($(".block li").attr("data-default-index")) -1)){
+            return ;
+        }
+        var li = obj.closest("li");
+        var star_area_index = li.index();
+        for (var i = 0; i < 5; i++) {
+            li.find("img").eq(i).attr("src", "/static/comment/img/" + stars[index][i]);//切换每个星星
+        }
+        $(".level").html(byIndexLeve(index));
+    }, function() {
+    })
+
+    $(".block li").hover(function(e) {
+    }, function() {
+        var index = $(this).attr("data-default-index");//点击后的索引
+        index = parseInt(index);
+        console.log("index",index);
+        $(".level").html(byIndexLeve(index-1));
+        console.log(byIndexLeve(index-1));
+        $(".order-evaluation ul li:eq(0)").find("img").attr("src","/static/comment/img/x1.png");
+        for (var i=0;i<index;i++){
+
+            $(".order-evaluation ul li:eq(0)").find("img").eq(i).attr("src","/static/comment/img/x2.png");
+        }
+    })
+    $(".block li").find("img").click(function() {
+        var obj = $(this);
+        var li = obj.closest("li");
+        var star_area_index = li.index();
+        var index1 = obj.index();
+        li.attr("data-default-index", (parseInt(index1)+1));
+        var index = $(".block li").attr("data-default-index");//点击后的索引
+        index = parseInt(index);
+        console.log("index",index);
+        $(".level").html(byIndexLeve(index-1));
+        console.log(byIndexLeve(index-1));
+        $(".order-evaluation ul li:eq(0)").find("img").attr("src","/static/comment/img/x1.png");
+        for (var i=0;i<index;i++){
+            $(".order-evaluation ul li:eq(0)").find("img").eq(i).attr("src","/static/comment/img/x2.png");
+        }
+
+    });
+    //印象
+    var str=[]
+    $(".order-evaluation-check").click(function(e){
+        console.log(this.id)
+        if($(this).hasClass('checked')){
+            //当前为选中状态，需要取消
+            let arr = []
+            $(this).removeClass('checked');
+            str.forEach((item,index)=>{
+                console.log(item,1111)
+                if(item==this.id){
+                }else{
+                    arr.push(item)
+                }
+            })
+            str = arr
+            console.log(str)
+        }else{
+            str.push(this.id)
+            console.log(str)
+            $(this).addClass('checked');
+        }
+    });
+    //评价字数限制
+    function words_deal()
+    {
+        var curLength=$("#TextArea1").val().length;
+        if(curLength>140)
+        {
+            var num=$("#TextArea1").val().substr(0,140);
+            $("#TextArea1").val(num);
+            alert("超过字数限制，多出的字将被截断！" );
+        }
+        else
+        {
+            $("#textCount").text(140-$("#TextArea1").val().length);
+        }
+    }
+    $(function(){
+    $("#order_evaluation").click(function(){
+        var index = $(".block li").attr("data-default-index")
+        var text=$("#TextArea1").val()
+        var order_id=$("#order_id").val()
+        $.post('/user/doComment', {order_id:order_id,text:text,index:index,str:JSON.stringify(str)}, function (response) {
+			if (response.success == true) {
+                $("#order_evaluate_modal").html("感谢您的评价！么么哒(* ￣3)(ε￣ *)").show().delay(3000).hide(500);
+                window.location.href="/user/myComment";
+			} else {
+				$("#order_evaluate_modal").html("Error：" + response.msg).show().delay(3000).hide(500);
+				}
+			})
+    })
+})
+</script>
+</body>
+</html>

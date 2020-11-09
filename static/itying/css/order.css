@@ -115,10 +115,13 @@
 .table td .col_title{					
     float: left;
     margin-left: 60px;
-    height: 80px;
+    /* height: 80px; */
 }
 .table td .col_title p{
-	text-align: left;
+  text-align: left;
+  width: 500px;
+  white-space:normal;
+  word-break:break-all;
 }
 
 .order-summary{

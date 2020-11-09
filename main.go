@@ -16,6 +16,7 @@ func init() {
 
 func main() {
 	beego.AddFuncMap("unixToDate", models.UnixToDate)
+	beego.AddFuncMap("unix64ToDate", models.Unix64ToDate)
 	models.DB.LogMode(true)
 	beego.AddFuncMap("setting", models.GetSettingFromColumn)
 	beego.AddFuncMap("formatImg", models.FormatImg)

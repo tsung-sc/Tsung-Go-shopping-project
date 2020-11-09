@@ -1,8 +1,10 @@
 package itying
 
 import (
+	"fmt"
 	"math"
 	"strconv"
+	"strings"
 	"time"
 	"xiaomi/models"
 )
@@ -107,6 +109,35 @@ func (c *UserController) BindMail() {
 	c.TplName = "itying/pass/bindmail.html"
 }
 
+func (c *UserController) Comment() {
+	order_id, err := c.GetInt("id")
+	if err != nil {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	user := models.User{}
+	ok := models.Cookie.Get(c.Ctx, "userinfo", &user)
+	if ok == false {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	realuser := models.DB.First(&user).RowsAffected
+	if realuser != 1 {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	order := models.Order{}
+	realorder := models.DB.Where("id=? AND uid=? AND pay_status=1 AND order_status=4", order_id, user.Id).First(&order).RowsAffected
+	if realorder != 1 {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	orderitem := models.OrderItem{}
+	models.DB.Where("order_id=?", order_id).Find(&orderitem)
+	c.Data["orderitem"] = orderitem
+	c.TplName = "itying/user/comment.html"
+}
+
 func (c *UserController) GetCollect() {
 	c.SuperInit()
 	page, _ := c.GetInt("page")
@@ -130,4 +161,122 @@ func (c *UserController) GetCollect() {
 	c.Data["totalPages"] = math.Ceil(float64(count) / float64(pageSize))
 	c.Data["page"] = page
 	c.TplName = "itying/user/order_collect.html"
+}
+
+func (c *UserController) DoComment() {
+	order_id, err := c.GetInt("order_id")
+	text := c.GetString("text")
+	str := c.GetString("str")
+	realuser := models.User{}
+	ok := models.Cookie.Get(c.Ctx, "userinfo", &realuser)
+	if ok == false {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "非法会员",
+		}
+		c.ServeJSON()
+		return
+	}
+	order := models.Order{}
+	realorder := models.DB.Where("id=? AND uid=? AND pay_status=1 AND order_status=4 AND is_comment=0", order_id, realuser.Id).First(&order).RowsAffected
+	if realorder != 1 {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "非法评论",
+		}
+		c.ServeJSON()
+		return
+	}
+	if err != nil {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "订单号错误",
+		}
+		c.ServeJSON()
+		return
+	}
+	star, err := c.GetInt("index")
+	if err != nil {
+		c.Data["json"] = map[string]interface{}{
+			"success": false,
+			"msg":     "评论出错",
+		}
+		c.ServeJSON()
+		return
+	}
+
+	orderItem := models.OrderItem{}
+	models.DB.Where("order_id=?", order_id).First(&orderItem)
+	comment := models.Comment{}
+	var impress []string
+	if strings.Contains(str, "a1") {
+		impress = append(impress, "价格实惠 ")
+	}
+	if strings.Contains(str, "a2") {
+		impress = append(impress, "交付准时 ")
+	}
+	if strings.Contains(str, "a3") {
+		impress = append(impress, "包装精美 ")
+	}
+	if strings.Contains(str, "a4") {
+		impress = append(impress, "服务态度友善 ")
+	}
+	if strings.Contains(str, "a5") {
+		impress = append(impress, "能力待提高 ")
+	}
+	if strings.Contains(str, "a6") {
+		impress = append(impress, "延迟送达 ")
+	}
+	for _, i := range impress {
+		comment.Str += i
+	}
+	comment.OrderId = orderItem.OrderId
+	comment.UserId = orderItem.Uid
+	comment.Star = star
+	comment.Text = text
+	comment.GoodId = orderItem.ProductId
+	comment.AddTime = models.GetUnix()
+	err = models.DB.Debug().Create(&comment).Error
+	if err != nil {
+		fmt.Println(err)
+	}
+	models.DB.Model(&order).Update("is_comment", 1)
+	c.Data["json"] = map[string]interface{}{
+		"success": true,
+		"msg":     "评论成功",
+	}
+	c.ServeJSON()
+}
+
+func (c *UserController) UserComment() {
+	c.SuperInit()
+	page, _ := c.GetInt("page")
+	if page == 0 {
+		page = 1
+	}
+	pageSize := 2
+	user := models.User{}
+	ok := models.Cookie.Get(c.Ctx, "userinfo", &user)
+	if ok == false {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	realuser := models.DB.First(&user).RowsAffected
+	if realuser != 1 {
+		c.Redirect(c.Ctx.Request.Referer(), 302)
+		return
+	}
+	Comment := []models.Comment{}
+	var count int
+	models.DB.Table("comment").Where("user_id=?", user.Id).Count(&count)
+	models.DB.Where("user_id=?", user.Id).Order("add_time desc").Offset((page - 1) * pageSize).Limit(pageSize).Find(&Comment)
+	for i := 0; i < len(Comment); i++ {
+		OrderItem := models.OrderItem{}
+		models.DB.Where("order_id=?", Comment[i].OrderId).First(&OrderItem)
+		Comment[i].OrderItem = OrderItem
+	}
+	c.Data["comment"] = Comment
+	c.Data["totalPages"] = math.Ceil(float64(count) / float64(pageSize))
+	c.Data["page"] = page
+	c.TplName = "itying/user/userComment.html"
 }

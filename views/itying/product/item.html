@@ -155,48 +155,30 @@
 
 
 			<div class="detail_info_item">
+				{{range $key,$value:=.comment}}
 				<ul class="comment_list">
 					<li>
+						<p>用户：{{$value.UserName}}</p>
 						<div>
+							{{if eq $value.Star 1}}
+							<img src="https://www.itying.com/themes/itying/images/stars1.gif">
+							{{else if eq $value.Star 2}}
+							<img src="https://www.itying.com/themes/itying/images/stars2.gif">
+							{{else if eq $value.Star 3}}
+							<img src="https://www.itying.com/themes/itying/images/stars3.gif">
+							{{else if eq $value.Star 4}}
+							<img src="https://www.itying.com/themes/itying/images/stars4.gif">
+							{{else if eq $value.Star 5}}
 							<img src="https://www.itying.com/themes/itying/images/stars5.gif">
+							{{end}}
 						</div>
-						<p>这已经是第六部了，一如既往地好用。美中不足得是，尾插和数据线的链接口，用过一段时间，就会有充电接触不良的问题，希望厂家将来有改进。</p>
+						<p>{{$value.Text}}</p>
 
-						<p class="eval-order-info"> <span class="eval-time">2018-11-18
-								14:00:35</span><span>月岩白</span><span>6GB+64GB</span><span></span></p>
-
-					</li>
-					<li>
-						<div>
-							<img src="https://www.itying.com/themes/itying/images/stars5.gif">
-						</div>
-						<p>这已经是第六部了，一如既往地好用。美中不足得是，尾插和数据线的链接口，用过一段时间，就会有充电接触不良的问题，希望厂家将来有改进。</p>
-
-						<p class="eval-order-info"> <span class="eval-time">2018-11-18
-								14:00:35</span><span>月岩白</span><span>6GB+64GB</span><span></span></p>
-
-					</li>
-					<li>
-						<div>
-							<img src="https://www.itying.com/themes/itying/images/stars5.gif">
-						</div>
-						<p>这已经是第六部了，一如既往地好用。美中不足得是，尾插和数据线的链接口，用过一段时间，就会有充电接触不良的问题，希望厂家将来有改进。</p>
-
-						<p class="eval-order-info"> <span class="eval-time">2018-11-18
-								14:00:35</span><span>月岩白</span><span>6GB+64GB</span><span></span></p>
-
-					</li>
-					<li>
-						<div>
-							<img src="https://www.itying.com/themes/itying/images/stars5.gif">
-						</div>
-						<p>这已经是第六部了，一如既往地好用。美中不足得是，尾插和数据线的链接口，用过一段时间，就会有充电接触不良的问题，希望厂家将来有改进。</p>
-
-						<p class="eval-order-info"> <span class="eval-time">2018-11-18
-								14:00:35</span><span>月岩白</span><span>6GB+64GB</span><span></span></p>
+						<p class="eval-order-info"> <span class="eval-time">{{$value.AddTime | unix64ToDate}}</span><span> {{$value.OrderItem.GoodsColor}} </span><span> {{$value.OrderItem.GoodsVersion}} </span><span></span></p>
 
 					</li>
 				</ul>
+				{{end}}
 			</div>
 
 

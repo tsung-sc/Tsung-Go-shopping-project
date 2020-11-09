@@ -138,6 +138,20 @@ func (c *ProductController) ProductItem() {
 	} else {
 		c.Data["collectStatus"] = true
 	}
+
+	//10、获取商品评论
+	comment := []models.Comment{}
+	models.DB.Where("good_id=?", id).Find(&comment)
+	for i := 0; i < len(comment); i++ {
+		orderitem := models.OrderItem{}
+		user1 := models.User{}
+		models.DB.Where("order_id=?", comment[i].OrderId).Find(&orderitem)
+		comment[i].OrderItem = orderitem
+		models.DB.Where("id=?", comment[i].UserId).First(&user1)
+		comment[i].UserName = user1.Nickname
+	}
+
+	c.Data["comment"] = comment
 	c.TplName = "itying/product/item.html"
 }
 
